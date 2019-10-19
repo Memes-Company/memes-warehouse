@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "include": ["ci/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
