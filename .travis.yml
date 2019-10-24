@@ -4,7 +4,6 @@ node_js:
 branches:
   only:
     - master
-    - /^prs.*$/
 script:
   - yarn build
   - yarn pr
