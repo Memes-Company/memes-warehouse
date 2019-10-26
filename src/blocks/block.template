@@ -1,0 +1,4 @@
+import { PullRequest, PipelineConfig } from '../types';
+export async function %blockName%(pullRequest: PullRequest, config: PipelineConfig) {
+  return pullRequest;
+}

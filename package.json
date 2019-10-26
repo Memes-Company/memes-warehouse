@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "merge-pr": "node scripts/merge-pr.js",
+    "create-block": "node scripts/create-block.js",
     "build": "rimraf dist && tsc",
     "dev": "ts-node-dev --no-notify --transpileOnly --respawn --inspect=0.0.0.0:9231 -- src/index.ts",
     "lint": "eslint --ext .ts src/",
