@@ -7,4 +7,4 @@ branches:
     - schema-dev #ветка для изменения структуры репозитория/данных
 script:
   - yarn build
-  - yarn pr
+  - yarn merge-pr

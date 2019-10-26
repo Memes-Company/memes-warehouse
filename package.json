@@ -5,7 +5,7 @@
   "author": "Vaagn Avanesyan <vahagn1993@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "pr": "node build.js",
+    "merge-pr": "node scripts/merge-pr.js",
     "build": "rimraf dist && tsc",
     "dev": "ts-node-dev --no-notify --transpileOnly --respawn --inspect=0.0.0.0:9231 -- src/index.ts",
     "lint": "eslint --ext .ts src/",
