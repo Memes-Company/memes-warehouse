@@ -1,13 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-const blockName = process.argv[2];
+const blockFileName = process.argv[2];
 
-if (!blockName) {
+if (!blockFileName) {
   console.log('usage: node create-block.js <blockname>');
 }
+const blockFunctionName = blockFileName.split('-').reduce((result, current) => {
+  if (!result) return current;
+  return result + current.charAt(0).toUpperCase() + current.slice(1);
+}, '');
+
 const blocksPath = path.join(__dirname, '../src/blocks');
 const templatePath = path.join(blocksPath, 'block.template');
-const resultPath = path.join(blocksPath, `${blockName}.ts`);
-const template = fs.readFileSync(templatePath, 'utf-8').replace('%blockName%', blockName);
+const resultPath = path.join(blocksPath, `${blockFileName}.ts`);
+const template = fs.readFileSync(templatePath, 'utf-8').replace('%blockName%', blockFunctionName);
 fs.writeFileSync(resultPath, template);
