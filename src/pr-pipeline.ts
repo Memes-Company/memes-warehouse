@@ -12,12 +12,14 @@ export async function run(jsonPath: string, config: { dbpath: string }) {
   addMemeToTags(createMeme(createTags(pullRequest, config), config), config);
   const git = sgit();
   fs.unlinkSync(jsonPath);
-  return git
-    .checkout(process.env.TRAVIS_BRANCH)
-    .then(() => git.add('.'))
-    .then(() => git.commit(`[skip-ci] Add ${pullRequest.meme.title['en']}`))
-    .then(() =>
-      git.addRemote('new-origin', `https://${process.env.GITHUB_TOKEN}@github.com/${process.env.TRAVIS_REPO_SLUG}`),
-    )
-    .then(() => git.push('new-origin', process.env.TRAVIS_BRANCH));
+  if (process.env.TRAVIS_BRANCH) {
+    return git
+      .checkout(process.env.TRAVIS_BRANCH)
+      .then(() => git.add('.'))
+      .then(() => git.commit(`[skip-ci] Add ${pullRequest.meme.title['en']}`))
+      .then(() =>
+        git.addRemote('new-origin', `https://${process.env.GITHUB_TOKEN}@github.com/${process.env.TRAVIS_REPO_SLUG}`),
+      )
+      .then(() => git.push('new-origin', process.env.TRAVIS_BRANCH));
+  }
 }
