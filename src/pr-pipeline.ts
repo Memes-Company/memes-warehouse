@@ -3,17 +3,14 @@ import { PullRequest, PipelineConfig } from './types';
 import { createMeme } from './blocks/createMeme';
 import { addMemeToTags } from './blocks/addMemeToTags';
 import { commitChanges } from './blocks/commitChanges';
-const fs = require('fs');
+import { parsePullRequest } from './blocks/parse-pull-request';
 
 export async function run(config: PipelineConfig): Promise<PullRequest> {
-  const json = fs.readFileSync(config.jsonPath);
-  const pullRequest: PullRequest = JSON.parse(json);
-
-  const blocks = [createTags, createMeme, addMemeToTags, commitChanges];
-
+  const blocks = [parsePullRequest, createTags, createMeme, addMemeToTags, commitChanges];
+  let pullRequest = null;
   for (const block of blocks) {
     try {
-      await block(pullRequest, config);
+      pullRequest = await block(pullRequest, config);
     } catch (error) {
       console.error(`Pipeline block '${block.name}' failed with exception:`);
       console.error(error);
