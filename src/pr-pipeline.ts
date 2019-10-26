@@ -12,7 +12,15 @@ export async function run(config: PipelineConfig): Promise<PullRequest> {
   const blocks = [createTags, createMeme, addMemeToTags, commitChanges];
 
   for (const block of blocks) {
-    await block(pullRequest, config);
+    try {
+      await block(pullRequest, config);
+    } catch (error) {
+      console.error(`Pipeline block '${block.name}' failed with exception:`);
+      console.error(error);
+      console.error('when processing pull-request:');
+      console.error(JSON.stringify(pullRequest));
+      process.exit(1);
+    }
   }
 
   return pullRequest;
