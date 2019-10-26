@@ -3,7 +3,7 @@ import { PullRequest } from '../types';
 const fs = require('fs');
 
 import path from 'path';
-export function createMeme(pullRequest: PullRequest, config: { dbpath: string }) {
+export async function createMeme(pullRequest: PullRequest, config: { dbpath: string }) {
   //TODO: extract translated string via reflection and generalize
   pullRequest.meme.id = uuid();
   const meme = {

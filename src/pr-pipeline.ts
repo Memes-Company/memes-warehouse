@@ -5,15 +5,20 @@ import { addMemeToTags } from './blocks/addMemeToTags';
 import sgit from 'simple-git/promise';
 const fs = require('fs');
 
-export async function run(jsonPath: string, config: { dbpath: string }) {
+export async function run(jsonPath: string, config: { dbpath: string }): Promise<PullRequest> {
   const json = fs.readFileSync(jsonPath);
   const pullRequest: PullRequest = JSON.parse(json);
-  /// do stuff here
-  addMemeToTags(createMeme(createTags(pullRequest, config), config), config);
-  const git = sgit();
-  fs.unlinkSync(jsonPath);
+
+  const blocks = [createTags, createMeme, addMemeToTags];
+
+  for (const block of blocks) {
+    await block(pullRequest, config);
+  }
+
   if (process.env.TRAVIS_BRANCH) {
-    return git
+    const git = sgit();
+    fs.unlinkSync(jsonPath);
+    await git
       .checkout(process.env.TRAVIS_BRANCH)
       .then(() => git.add('.'))
       .then(() => git.commit(`[skip-ci] Add ${pullRequest.meme.title['en']}`))
@@ -22,4 +27,5 @@ export async function run(jsonPath: string, config: { dbpath: string }) {
       )
       .then(() => git.push('new-origin', process.env.TRAVIS_BRANCH));
   }
+  return pullRequest;
 }

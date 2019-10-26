@@ -3,7 +3,7 @@ import { PullRequest } from '../types.js';
 const fs = require('fs');
 
 import path from 'path';
-export function createTags(pullRequest: PullRequest, config: { dbpath: string }) {
+export async function createTags(pullRequest: PullRequest, config: { dbpath: string }) {
   if (pullRequest.tags) {
     const tagsdbPath = path.join(config.dbpath, 'tags.json');
     let tagsdb = JSON.parse(fs.readFileSync(tagsdbPath));
