@@ -1,7 +1,7 @@
-import { PullRequest } from '../types.js';
+import { PullRequest, PipelineConfig } from '../types';
 const fs = require('fs');
 import path from 'path';
-export async function addMemeToTags(pullRequest: PullRequest, config: { dbpath: string }) {
+export async function addMemeToTags(pullRequest: PullRequest, config: PipelineConfig) {
   pullRequest.meme.tags.forEach((tagId) => {
     const jsonPath = path.join(config.dbpath, 'tags', `${tagId}.json`);
     let json;

@@ -1,9 +1,9 @@
 import uuid from 'uuid/v4';
-import { PullRequest } from '../types';
+import { PullRequest, PipelineConfig } from '../types';
 const fs = require('fs');
 
 import path from 'path';
-export async function createMeme(pullRequest: PullRequest, config: { dbpath: string }) {
+export async function createMeme(pullRequest: PullRequest, config: PipelineConfig) {
   //TODO: extract translated string via reflection and generalize
   pullRequest.meme.id = uuid();
   const meme = {

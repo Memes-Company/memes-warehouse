@@ -1,9 +1,9 @@
 import uuid from 'uuid/v4';
-import { PullRequest } from '../types.js';
+import { PullRequest, PipelineConfig } from '../types';
 const fs = require('fs');
 
 import path from 'path';
-export async function createTags(pullRequest: PullRequest, config: { dbpath: string }) {
+export async function createTags(pullRequest: PullRequest, config: PipelineConfig) {
   if (pullRequest.tags) {
     const tagsdbPath = path.join(config.dbpath, 'tags.json');
     let tagsdb = JSON.parse(fs.readFileSync(tagsdbPath));

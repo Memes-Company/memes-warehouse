@@ -19,3 +19,8 @@ export interface Tag {
   id?: string;
   title: TranslatedString;
 }
+
+export interface PipelineConfig {
+  dbpath: string;
+  jsonPath: string;
+}
