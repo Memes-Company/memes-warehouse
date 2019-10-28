@@ -1,0 +1,6 @@
+{
+  "type": "sqlite",
+  "database": "memes.db",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}
