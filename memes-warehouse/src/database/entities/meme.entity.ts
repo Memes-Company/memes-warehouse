@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('memes')
 export class Meme {
   @PrimaryGeneratedColumn('uuid')
   id: string;
