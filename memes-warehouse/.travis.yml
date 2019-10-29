@@ -1,3 +1,9 @@
+branches:
+  only:
+    - master
+    - schema-dev #ветка для изменения структуры репозитория/данных
+
 services:
   - docker
+
 before_install: docker build -t rosmem .
