@@ -1,0 +1,27 @@
+{
+  "locales": ["ru", "en"],
+  "ru": {
+    "meme": {
+      "title": "Картошка с человеческим лицом",
+      "description": "Мем с фотографией картофелины со складками на кожуре. Складки напоминают изможденное лицо старика",
+      "source": {
+        "type": "image",
+        "value": "https://memepedia.ru/wp-content/uploads/2019/10/u9adsakhslr31-%E2%80%94-kopija.jpg"
+      },
+      "tags": []
+    },
+    "tags": ["Картошка"]
+  },
+  "en": {
+    "meme": {
+      "title": "Potato with human face",
+      "description": "Meme with potato which looks like old man face",
+      "source": {
+        "type": "image",
+        "value": "https://memepedia.ru/wp-content/uploads/2019/10/u9adsakhslr31-%E2%80%94-kopija.jpg"
+      },
+      "tags": []
+    },
+    "tags": ["Potato"]
+  }
+}
