@@ -1,18 +1,13 @@
-export type Locale = 'en' | 'ru';
+import { Meme } from '../entities/meme.entity';
 
+export type Locale = 'en' | 'ru';
 export type PullRequest = {
-  [key in Locale]?: Meme;
+  [key in Locale]?: LocalizedPullRequest;
 } & {
   locales: Locale[];
 };
 
-export interface Meme {
-  title: string;
-  description: string;
-  source: Source;
-}
-
-export interface Source {
-  type: string;
-  value: string;
+export interface LocalizedPullRequest {
+  meme: Meme;
+  tags: string[];
 }
