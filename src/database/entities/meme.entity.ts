@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Locale } from '../models/pull-request';
+import { Tag } from './tag.entity';
 
 @Entity('memes')
 export class Meme {
@@ -17,6 +24,8 @@ export class Meme {
 
   @Column('simple-json')
   source: MemeSource;
+  @ManyToMany(type => Tag, tag => tag.memes)
+  tags: Tag[];
 }
 
 export interface MemeSource {
