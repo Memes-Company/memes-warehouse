@@ -9,10 +9,11 @@ import uuid = require('uuid/v4');
 export class loadPullrequestsToDb1672720096399 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const pullrequestsDir = path.join(__dirname, '../../../db/pull-requests');
+    const memesRepo = queryRunner.connection.getRepository(Meme);
+    const tagsRepo = queryRunner.connection.getRepository(Tag);
     getPullrequests(pullrequestsDir).map(pullrequest => {
       pullrequest.locales.map(locale => {
         const meme: Meme = { ...pullrequest[locale].meme, locale, id: uuid() };
-        const memesRepo = queryRunner.connection.getRepository(Meme);
         memesRepo.save(meme);
         const tags: Tag[] = pullrequest[locale].tags.map(title => ({
           id: uuid(),
@@ -20,7 +21,6 @@ export class loadPullrequestsToDb1672720096399 implements MigrationInterface {
           locale,
           memes: [meme],
         }));
-        const tagsRepo = queryRunner.connection.getRepository(Tag);
         tagsRepo.save(tags);
       });
     });
