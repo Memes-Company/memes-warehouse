@@ -6,7 +6,7 @@ import { Tag } from '../entities/tag.entity';
 import uuid = require('uuid/v4');
 
 // tslint:disable-next-line: class-name
-export class loadPullrequestsToDb1672720096399 implements MigrationInterface {
+export class loadPullrequestsToDb1572802906657 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const pullrequestsDir = path.join(__dirname, '../../../db/pull-requests');
     const memesRepo = queryRunner.connection.getRepository(Meme);
