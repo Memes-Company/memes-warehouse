@@ -1,0 +1,25 @@
+{
+  "locales": ["ru", "en"],
+  "ru": {
+    "meme": {
+      "title": "Рикролл",
+      "description": "Интернет-розыгрыш, во время которого происходит намеренная подмена ссылки или видеоролика клипом Рика Эстли Never Gonna Give You Up",
+      "source": {
+        "type": "link",
+        "value": "https://youtu.be/oHg5SJYRHA0"
+      }
+    },
+    "tags": ["Рикролл", "Рик ролл", "Рик Эстли"]
+  },
+  "en": {
+    "meme": {
+      "title": "Rick roll",
+      "description": "Rickrolling is a bait-and-switch prank that involves posting a hyperlink that is supposedly relevant to the topic at hand in an online discussion, but re-directs the viewer to the music video of \"Never Gonna Give You Up\"",
+      "source": {
+        "type": "image",
+        "value": "https://memepedia.ru/wp-content/uploads/2019/10/u9adsakhslr31-%E2%80%94-kopija.jpg"
+      }
+    },
+    "tags": ["RickRoll", "Rick roll", "Never Gonna Give You Up", "Rick Astley"]
+  }
+}
