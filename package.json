@@ -1,7 +1,7 @@
 {
-  "name": "test-memes",
+  "name": "memes-warehouse",
   "version": "1.0.0",
-  "repository": "https://github.com/vaagnavanesyan/test-memes.git",
+  "repository": "https://github.com/Memes-Company/memes-warehouse.git",
   "author": "Vaagn Avanesyan <vahagn1993@gmail.com>",
   "license": "MIT",
   "scripts": {
