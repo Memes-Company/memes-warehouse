@@ -4,13 +4,15 @@ import { createMeme } from './blocks/createMeme';
 import { addMemeToTags } from './blocks/addMemeToTags';
 import { commitChanges } from './blocks/commitChanges';
 import { getPullrequests } from './blocks/get-pullrequests';
+import { removePullrequests } from './blocks/remove-pullrequests';
+import { pushChanges } from './blocks/push-changes';
 
 export class PullRequestsPipeline {
   private blocks: Array<Function>;
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    this.blocks = [createTags, createMeme, addMemeToTags, commitChanges];
+    this.blocks = [createTags, createMeme, addMemeToTags, removePullrequests, commitChanges];
   }
 
   async run(): Promise<void> {
