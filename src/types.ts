@@ -1,26 +1,28 @@
-export interface PullRequest {
+export type Locale = 'en' | 'ru';
+export type PullRequest = {
+  [key in Locale]?: LocalizedPullRequest;
+} & {
+  locales: Locale[];
+};
+
+export interface LocalizedPullRequest {
   meme: Meme;
-  tags?: (Tag)[] | null;
+  tags: string[];
 }
+
 export interface Meme {
   id?: string;
-  title: TranslatedString;
-  description: TranslatedString;
+  title: string;
+  description: string;
   tags?: (string)[] | null;
-}
-export type Locale = 'en' | 'ru';
-
-export interface TranslatedString {
-  ru: string;
-  en: string;
 }
 
 export interface Tag {
   id?: string;
-  title: TranslatedString;
+  title: string;
 }
 
 export interface PipelineConfig {
   dbpath: string;
-  jsonPath: string;
+  pullrequestsDir: string;
 }

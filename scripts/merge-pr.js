@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const pipeline = require('../dist/pr-pipeline');
+const { PullRequestsPipeline } = require('../dist/pr-pipeline');
 const dbpath = path.join(__dirname, '../db');
-const jsonPath = path.join(__dirname, '../pr.json');
+const pullrequestsDir = path.join(__dirname, '../db/pull-requests');
 
-if (fs.existsSync(jsonPath)) {
-  pipeline.run({ dbpath, jsonPath });
+if (fs.existsSync(pullrequestsDir)) {
+  let pipeline = new PullRequestsPipeline({ dbpath, pullrequestsDir });
+  pipeline.run();
 } else {
   console.log('Nothing to process');
 }
