@@ -16,7 +16,9 @@
     "test-watch": "jest --watch "
   },
   "dependencies": {
+    "@types/rimraf": "^2.0.3",
     "@types/uuid": "^3.4.5",
+    "rimraf": "^3.0.0",
     "simple-git": "^1.126.0",
     "source-map-support": "^0.5.13",
     "uuid": "^3.3.3"

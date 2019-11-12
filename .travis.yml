@@ -4,7 +4,6 @@ node_js:
 branches:
   only:
     - master
-    - schema-dev #ветка для изменения структуры репозитория/данных
 script:
   - yarn build
   - yarn merge-pr

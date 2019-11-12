@@ -5,6 +5,7 @@ const blockFileName = process.argv[2];
 
 if (!blockFileName) {
   console.log('usage: node create-block.js <blockname>');
+  process.exit(0);
 }
 const blockFunctionName = blockFileName.split('-').reduce((result, current) => {
   if (!result) return current;
