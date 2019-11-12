@@ -4,7 +4,8 @@ import { createMeme } from './blocks/createMeme';
 import { createTags } from './blocks/createTags';
 import { getPullrequests } from './blocks/get-pullrequests';
 import { removePullrequests } from './blocks/remove-pullrequests';
-import { PipelineConfig } from './types';
+import { PipelineConfig, PullRequest } from './types';
+import { pushChanges } from './blocks/push-changes';
 
 export class PullRequestsPipeline {
   private blocks: Array<Function>;
@@ -15,11 +16,15 @@ export class PullRequestsPipeline {
   }
 
   async run(): Promise<void> {
-    getPullrequests(this.config.pullrequestsDir).map(async (pullRequest) => await this.processPullRequest(pullRequest));
+    for (const pullRequest of getPullrequests(this.config.pullrequestsDir)) {
+      await this.processPullRequest(pullRequest);
+    }
+    await pushChanges();
   }
-  async processPullRequest(pullRequest: any) {
+  async processPullRequest(pullRequest: PullRequest) {
     for (const block of this.blocks) {
       try {
+        console.log(`Apply ${block.name} at ${pullRequest[pullRequest.locales[0]].meme.title}`);
         pullRequest = await block(pullRequest, this.config);
       } catch (error) {
         console.error(`Pipeline block '${block.name}' failed with exception:`);
