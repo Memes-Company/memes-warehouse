@@ -4,7 +4,7 @@ import { createMeme } from './blocks/createMeme';
 import { createTags } from './blocks/createTags';
 import { getPullrequests } from './blocks/get-pullrequests';
 import { removePullrequests } from './blocks/remove-pullrequests';
-import { PipelineConfig, PullRequest } from './types';
+import { PipelineConfig, LocaleAwarePullRequest } from './types';
 import { pushChanges } from './blocks/push-changes';
 
 export class PullRequestsPipeline {
@@ -21,7 +21,7 @@ export class PullRequestsPipeline {
     }
     await pushChanges();
   }
-  async processPullRequest(pullRequest: PullRequest) {
+  async processPullRequest(pullRequest: LocaleAwarePullRequest) {
     for (const block of this.blocks) {
       try {
         console.log(`Apply ${block.name} at ${pullRequest[pullRequest.locales[0]].meme.title}`);

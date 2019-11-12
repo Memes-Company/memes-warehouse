@@ -1,6 +1,6 @@
 import fs = require('fs');
 import path = require('path');
-import { PullRequest } from '../types';
+import { LocaleAwarePullRequest } from '../types';
 
 export function getPullrequests(pullrequestsDir: string) {
   return fs
@@ -9,6 +9,6 @@ export function getPullrequests(pullrequestsDir: string) {
     })
     .filter((e) => e.endsWith('.json'))
     .map((filename) => {
-      return JSON.parse(fs.readFileSync(path.join(pullrequestsDir, filename), 'utf-8')) as PullRequest;
+      return JSON.parse(fs.readFileSync(path.join(pullrequestsDir, filename), 'utf-8')) as LocaleAwarePullRequest;
     });
 }

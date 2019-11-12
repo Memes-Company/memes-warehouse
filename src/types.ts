@@ -1,11 +1,12 @@
 export type Locale = 'en' | 'ru';
-export type PullRequest = {
-  [key in Locale]?: LocalizedPullRequest;
+
+export type LocaleAwarePullRequest = {
+  [key in Locale]?: PullRequest;
 } & {
   locales: Locale[];
 };
 
-export interface LocalizedPullRequest {
+export interface PullRequest {
   meme: Meme;
   tags: string[];
 }
