@@ -7,34 +7,33 @@ import {
   pushChanges,
   removePullrequests,
 } from './blocks';
-import { LocaleAwarePullRequest, PipelineConfig } from './types';
+import { LocaleAwarePullRequest, PipelineConfig, DataSet, PipelineBlock } from './types';
+import { LoadDataSet } from './blocks/load-dataset';
 
 export class PullRequestsPipeline {
-  private blocks: Array<Function>;
+  private blocks: Array<PipelineBlock>;
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    this.blocks = [createTags, createMeme, addMemeToTags, removePullrequests, commitChanges];
+    // this.blocks = [createTags, createMeme, addMemeToTags, removePullrequests, commitChanges];
+    this.blocks = [new LoadDataSet(this.config)];
   }
 
   async run(): Promise<void> {
-    for (const pullRequest of getPullrequests(this.config.pullrequestsDir)) {
-      await this.processPullRequest(pullRequest);
-    }
-    await pushChanges();
-  }
-  async processPullRequest(pullRequest: LocaleAwarePullRequest) {
+    let dataset = null;
     for (const block of this.blocks) {
       try {
-        console.log(`Apply ${block.name} at ${pullRequest[pullRequest.locales[0]].meme.title}`);
-        pullRequest = await block(pullRequest, this.config);
+        console.log(`Apply ${block.name}...`);
+        dataset = await block.process(dataset);
       } catch (error) {
         console.error(`Pipeline block '${block.name}' failed with exception:`);
         console.error(error);
         console.error('when processing pull-request:');
-        console.error(JSON.stringify(pullRequest));
+        console.error(JSON.stringify(dataset));
         process.exit(1);
       }
     }
+    await pushChanges();
+    console.log('Done!');
   }
 }

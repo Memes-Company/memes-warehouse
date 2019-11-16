@@ -1,66 +1,54 @@
 import fs from 'fs';
 import path from 'path';
+import { DataSet, Locale, LocaleAwarePullRequest, Meme, PipelineBlock, Tag } from '../types';
 
-import { DataSet, Locale, LocaleAwarePullRequest, Meme, PipelineConfig, Tag } from '../types';
+export class LoadDataSet extends PipelineBlock {
+  public name: string = LoadDataSet.name;
+  process(): Promise<DataSet> {
+    this.dataset = {
+      PullRequests: {},
+      Memes: { en: {}, ru: {} },
+      Tags: { en: {}, ru: {} },
+    };
 
-export async function loadDataset(dataset: DataSet, config: PipelineConfig) {
-  dataset = {
-    PullRequests: {},
-    Memes: { en: {}, ru: {} },
-    Tags: { en: {}, ru: {} },
-  };
+    const prsPath = path.join(this.config.dbpath, 'pull-requests');
+    const localeMarker = '${locale}';
+    const memesPath = path.join(this.config.dbpath, 'l10n', localeMarker, 'memes');
+    const tagsPath = path.join(this.config.dbpath, 'l10n', localeMarker, 'tags');
+    const dotjson = '.json';
 
-  const prsPath = path.join(config.dbpath, 'pull-requests');
-  const localeMarker = '${locale}';
-  const memesPath = path.join(config.dbpath, 'l10n', localeMarker, 'memes');
-  const tagsPath = path.join(config.dbpath, 'l10n', localeMarker, 'tags');
-  const dotjson = '.json';
-
-  fs.readdirSync(prsPath, {
-    encoding: 'utf-8',
-  })
-    .filter((e) => e.endsWith(dotjson))
-    .map((filename) => {
-      return {
-        key: filename.replace(dotjson, ''),
-        value: JSON.parse(fs.readFileSync(path.join(prsPath, filename), 'utf-8')) as LocaleAwarePullRequest,
-      };
+    fs.readdirSync(prsPath, {
+      encoding: 'utf-8',
     })
-    .map((kv) => (dataset[kv.key] = kv.value));
-
-  Object.keys(Locale).map((locale) => {
-    fs.readdirSync(memesPath.replace(localeMarker, locale), { encoding: 'utf-8' })
-      .filter((e) => e.endsWith(dotjson))
-      .map(
-        (filename) =>
-          JSON.parse(fs.readFileSync(path.join(memesPath.replace(localeMarker, locale), filename), 'utf-8')) as Meme,
-      )
-      .map((meme) => (dataset.Memes[locale as Locale][meme.id] = meme));
-
-    fs.readdirSync(tagsPath.replace(localeMarker, locale), { encoding: 'utf-8' })
       .filter((e) => e.endsWith(dotjson))
       .map((filename) => {
-        const tag = JSON.parse(
-          fs.readFileSync(path.join(tagsPath.replace(localeMarker, locale), filename), 'utf-8'),
-        ) as Tag;
-        tag.id = filename.replace(dotjson, '');
-        return tag;
+        return {
+          key: filename.replace(dotjson, ''),
+          value: JSON.parse(fs.readFileSync(path.join(prsPath, filename), 'utf-8')) as LocaleAwarePullRequest,
+        };
       })
-      .map((tag) => (dataset.Tags[locale as Locale][tag.id] = tag));
-  });
-  return dataset;
+      .map((kv) => (this.dataset[kv.key] = kv.value));
 
-  // const tags = JSON.parse(fs.readFileSync(path.join(config.dbpath, 'tags.json'), 'utf-8')) as { [key: string]: string };
-  // Object.keys(tags).map((tagId) => {
-  //   let locale;
-  //   if (dataset.Tags[Locale.en][tagId]) {
-  //     locale = Locale.en;
-  //   } else {
-  //     locale = Locale.ru;
-  //   }
-  //   const tag = dataset.Tags[Locale.en][tagId] || dataset.Tags[Locale.ru][tagId];
-  //   tag.title = tags[tagId];
-  //   const pth = path.join(tagsPath.replace(localeMarker, locale), `${tagId}.json`);
-  //   fs.writeFileSync(pth, JSON.stringify(tag, null, 2));
-  // });
+    Object.keys(Locale).map((locale) => {
+      fs.readdirSync(memesPath.replace(localeMarker, locale), { encoding: 'utf-8' })
+        .filter((e) => e.endsWith(dotjson))
+        .map(
+          (filename) =>
+            JSON.parse(fs.readFileSync(path.join(memesPath.replace(localeMarker, locale), filename), 'utf-8')) as Meme,
+        )
+        .map((meme) => (this.dataset.Memes[locale as Locale][meme.id] = meme));
+
+      fs.readdirSync(tagsPath.replace(localeMarker, locale), { encoding: 'utf-8' })
+        .filter((e) => e.endsWith(dotjson))
+        .map((filename) => {
+          const tag = JSON.parse(
+            fs.readFileSync(path.join(tagsPath.replace(localeMarker, locale), filename), 'utf-8'),
+          ) as Tag;
+          tag.id = filename.replace(dotjson, '');
+          return tag;
+        })
+        .map((tag) => (this.dataset.Tags[locale as Locale][tag.id] = tag));
+    });
+    return Promise.resolve(this.dataset);
+  }
 }

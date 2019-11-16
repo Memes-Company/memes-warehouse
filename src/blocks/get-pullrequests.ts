@@ -1,5 +1,5 @@
-import fs = require('fs');
-import path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 import { LocaleAwarePullRequest } from '../types';
 
