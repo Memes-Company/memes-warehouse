@@ -48,6 +48,19 @@ export async function loadDataset(dataset: DataSet, config: PipelineConfig) {
       })
       .map((tag) => (dataset.Tags[locale as Locale][tag.id] = tag));
   });
-
   return dataset;
+
+  // const tags = JSON.parse(fs.readFileSync(path.join(config.dbpath, 'tags.json'), 'utf-8')) as { [key: string]: string };
+  // Object.keys(tags).map((tagId) => {
+  //   let locale;
+  //   if (dataset.Tags[Locale.en][tagId]) {
+  //     locale = Locale.en;
+  //   } else {
+  //     locale = Locale.ru;
+  //   }
+  //   const tag = dataset.Tags[Locale.en][tagId] || dataset.Tags[Locale.ru][tagId];
+  //   tag.title = tags[tagId];
+  //   const pth = path.join(tagsPath.replace(localeMarker, locale), `${tagId}.json`);
+  //   fs.writeFileSync(pth, JSON.stringify(tag, null, 2));
+  // });
 }
