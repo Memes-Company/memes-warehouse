@@ -7,6 +7,6 @@ export interface DataSet {
   PullRequests: {
     [key: string]: LocaleAwarePullRequest;
   };
-  Memes: WithLocale<Meme[]>;
-  Tags: WithLocale<Tag[]>;
+  Memes: WithLocale<{ [key: string]: Meme }>;
+  Tags: WithLocale<{ [key: string]: Tag }>;
 }
