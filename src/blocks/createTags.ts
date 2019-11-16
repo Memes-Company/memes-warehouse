@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+import { LocaleAwarePullRequest, PipelineConfig } from '../types/types';
 const fs = require('fs');
 
 import path from 'path';

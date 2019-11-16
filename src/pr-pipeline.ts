@@ -4,7 +4,7 @@ import { createMeme } from './blocks/createMeme';
 import { createTags } from './blocks/createTags';
 import { getPullrequests } from './blocks/get-pullrequests';
 import { removePullrequests } from './blocks/remove-pullrequests';
-import { PipelineConfig, LocaleAwarePullRequest } from './types';
+import { PipelineConfig, LocaleAwarePullRequest } from './types/types';
 import { pushChanges } from './blocks/push-changes';
 
 export class PullRequestsPipeline {
