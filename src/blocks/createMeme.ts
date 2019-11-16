@@ -1,8 +1,9 @@
-import uuid from 'uuid/v4';
-import { LocaleAwarePullRequest, PipelineConfig } from '../types/types';
-const fs = require('fs');
-
+import fs from 'fs';
 import path from 'path';
+import uuid from 'uuid/v4';
+
+import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+
 export async function createMeme(pullRequest: LocaleAwarePullRequest, config: PipelineConfig) {
   pullRequest.locales.map((locale) => {
     pullRequest[locale].meme.id = uuid();

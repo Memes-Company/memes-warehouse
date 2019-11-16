@@ -1,13 +1,14 @@
-import uuid from 'uuid/v4';
-import { LocaleAwarePullRequest, PipelineConfig } from '../types/types';
-const fs = require('fs');
-
+import fs from 'fs';
 import path from 'path';
+import uuid from 'uuid/v4';
+
+import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+
 export async function createTags(pullRequest: LocaleAwarePullRequest, config: PipelineConfig) {
   pullRequest.locales.map((locale) => {
     if (pullRequest[locale].tags) {
       const tagsdbPath = path.join(config.dbpath, 'tags.json');
-      let tagsdb = JSON.parse(fs.readFileSync(tagsdbPath));
+      let tagsdb = JSON.parse(fs.readFileSync(tagsdbPath, { encoding: 'utf-8' }));
       pullRequest[locale].tags.map((tag) => {
         const tagId = uuid();
         pullRequest[locale].meme.tags.push(tagId);

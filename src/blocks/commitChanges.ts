@@ -1,5 +1,7 @@
-import { LocaleAwarePullRequest, PipelineConfig } from '../types/types';
 import sgit from 'simple-git/promise';
+
+import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+
 export async function commitChanges(pullRequest: LocaleAwarePullRequest, config: PipelineConfig) {
   if (process.env.TRAVIS_BRANCH) {
     const git = sgit();

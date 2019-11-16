@@ -1,6 +1,7 @@
 import fs = require('fs');
 import path = require('path');
-import { LocaleAwarePullRequest } from '../types/types';
+
+import { LocaleAwarePullRequest } from '../types';
 
 export function getPullrequests(pullrequestsDir: string) {
   return fs
