@@ -8,12 +8,11 @@ export class CreateMeme extends PipelineBlock {
   public name: string = CreateMeme.name;
   process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase> {
     currentPR.locales.map((locale) => {
-      currentPR[locale].meme.id = uuid();
-      fs.writeFileSync(
-        path.join(this.config.dbpath, 'l10n', locale, 'memes', `${currentPR[locale].meme.id}.json`),
-        JSON.stringify(currentPR[locale].meme, null, 2),
-      );
+      const id = uuid();
+      currentPR[locale].meme.id = id;
+      database[locale].meme[id] = currentPR[locale].meme;
     });
+
     return Promise.resolve(database);
   }
 }

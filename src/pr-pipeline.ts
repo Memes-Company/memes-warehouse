@@ -8,13 +8,14 @@ import {
   CommitChanges,
 } from './blocks';
 import { PipelineBlock, PipelineConfig } from './types';
+import { SaveDatabase } from './blocks/save-database';
 
 export class PullRequestsPipeline {
   private blocks: Array<PipelineBlock>;
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, RemovePullrequest, CommitChanges].map(
+    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, RemovePullrequest, SaveDatabase, CommitChanges].map(
       (e) => new e(this.config),
     );
   }
