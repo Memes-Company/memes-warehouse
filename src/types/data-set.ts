@@ -4,9 +4,9 @@ import { Tag } from './tag';
 import { WithLocale } from './with-locale';
 
 export interface DataSet {
-  PullRequests: {
+  pullRequests: {
     [key: string]: LocaleAwarePullRequest;
   };
-  Memes: WithLocale<{ [key: string]: Meme }>;
-  Tags: WithLocale<{ [key: string]: Tag }>;
+  memes: WithLocale<{ [key: string]: Meme }>;
+  tags: WithLocale<{ [key: string]: Tag }>;
 }

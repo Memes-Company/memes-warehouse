@@ -6,9 +6,9 @@ export class LoadDataSet extends PipelineBlock {
   public name: string = LoadDataSet.name;
   process(): Promise<DataSet> {
     this.dataset = {
-      PullRequests: {},
-      Memes: { en: {}, ru: {} },
-      Tags: { en: {}, ru: {} },
+      pullRequests: {},
+      memes: { en: {}, ru: {} },
+      tags: { en: {}, ru: {} },
     };
 
     const prsPath = path.join(this.config.dbpath, 'pull-requests');
@@ -36,7 +36,7 @@ export class LoadDataSet extends PipelineBlock {
           (filename) =>
             JSON.parse(fs.readFileSync(path.join(memesPath.replace(localeMarker, locale), filename), 'utf-8')) as Meme,
         )
-        .map((meme) => (this.dataset.Memes[locale as Locale][meme.id] = meme));
+        .map((meme) => (this.dataset.memes[locale as Locale][meme.id] = meme));
 
       fs.readdirSync(tagsPath.replace(localeMarker, locale), { encoding: 'utf-8' })
         .filter((e) => e.endsWith(dotjson))
@@ -47,7 +47,7 @@ export class LoadDataSet extends PipelineBlock {
           tag.id = filename.replace(dotjson, '');
           return tag;
         })
-        .map((tag) => (this.dataset.Tags[locale as Locale][tag.id] = tag));
+        .map((tag) => (this.dataset.tags[locale as Locale][tag.id] = tag));
     });
     return Promise.resolve(this.dataset);
   }
