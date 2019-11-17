@@ -23,15 +23,16 @@ export class PullRequestsPipeline {
   async run(): Promise<void> {
     let database = await new LoadDataBase(this.config).process(null, null); // not so beauty as I expected 🤔
     for (const id of Object.keys(database.pullRequests)) {
+      const pipeline = database.pullRequests[id];
       for (const block of this.blocks) {
         try {
           console.log(`Apply ${block.name}...`);
-          database = await block.process(database, database.pullRequests[id]);
+          database = await block.process(database, pipeline);
         } catch (error) {
           console.error(`Pipeline block '${block.name}' failed with exception:`);
           console.error(error);
           console.error('when processing pull-request:');
-          console.error(JSON.stringify(database.pullRequests[id]));
+          console.error(JSON.stringify(pipeline));
           process.exit(1);
         }
       }
