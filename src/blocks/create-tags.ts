@@ -1,8 +1,6 @@
-import fs from 'fs';
-import path from 'path';
 import uuid from 'uuid/v4';
 
-import { DataSet, LocaleAwarePullRequest, PipelineConfig, PipelineBlock } from '../types';
+import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class CreateTags extends PipelineBlock {
   public name: string = CreateTags.name;

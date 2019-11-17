@@ -1,7 +1,7 @@
 import path from 'path';
 import rimraf from 'rimraf';
 
-import { DataSet, LocaleAwarePullRequest, PipelineBlock, PipelineConfig } from '../types';
+import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class RemovePullrequest extends PipelineBlock {
   public name: string = RemovePullrequest.name;

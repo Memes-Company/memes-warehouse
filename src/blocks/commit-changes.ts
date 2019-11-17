@@ -1,6 +1,6 @@
 import sgit from 'simple-git/promise';
 
-import { DataSet, PipelineBlock, LocaleAwarePullRequest, Locale } from '../types';
+import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class CommitChanges extends PipelineBlock {
   public name: string = CommitChanges.name;
