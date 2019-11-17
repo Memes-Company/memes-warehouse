@@ -1,5 +1,8 @@
 {
-  "locales": ["en"],
+  "id": "62a1ab9b-dcff-4a75-a03c-41b9ff2b3baf",
+  "locales": [
+    "en"
+  ],
   "en": {
     "meme": {
       "title": "Peach Emoji",
@@ -10,6 +13,11 @@
       },
       "tags": []
     },
-    "tags": ["Peach", "Butt", "Ass", "Emoji"]
+    "tags": [
+      "Peach",
+      "Butt",
+      "Ass",
+      "Emoji"
+    ]
   }
 }
