@@ -2,21 +2,20 @@ import fs from 'fs';
 import path from 'path';
 import uuid from 'uuid/v4';
 
-import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+import { DataSet, LocaleAwarePullRequest, PipelineConfig, PipelineBlock } from '../types';
 
-export async function createTags(pullRequest: LocaleAwarePullRequest, config: PipelineConfig) {
-  pullRequest.locales.map((locale) => {
-    if (pullRequest[locale].tags) {
-      const tagsdbPath = path.join(config.dbpath, 'tags.json');
-      let tagsdb = JSON.parse(fs.readFileSync(tagsdbPath, { encoding: 'utf-8' }));
-      pullRequest[locale].tags.map((tag) => {
-        const tagId = uuid();
-        pullRequest[locale].meme.tags.push(tagId);
-        tagsdb[tagId] = tag;
-      });
-      fs.writeFileSync(tagsdbPath, JSON.stringify(tagsdb, null, 2));
-    }
-  });
-
-  return pullRequest;
+export class CreateTags extends PipelineBlock {
+  public name: string;
+  async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
+    currentPR.locales.map((locale) => {
+      if (currentPR[locale].tags) {
+        currentPR[locale].tags.map((title) => {
+          const tagId = uuid();
+          dataset.tags[locale][tagId] = { id: tagId, memes: [], title: title };
+          currentPR[locale].meme.tags.push(tagId);
+        });
+      }
+    });
+    return dataset;
+  }
 }

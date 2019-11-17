@@ -1,4 +1,4 @@
-import { pushChanges, LoadDataSet } from './blocks';
+import { PushChanges, LoadDataSet } from './blocks';
 import { PipelineBlock, PipelineConfig } from './types';
 
 export class PullRequestsPipeline {
@@ -26,7 +26,7 @@ export class PullRequestsPipeline {
         }
       }
     }
-    await pushChanges();
+    await new PushChanges(this.config).process(dataset, null);
     console.log('Done!');
   }
 }

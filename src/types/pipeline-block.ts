@@ -11,5 +11,5 @@ export abstract class PipelineBlock {
   }
 
   //oh, yep, we need to process every PR separately to create separate commits
-  abstract async process(dataset: DataSet, currentPullRequest: LocaleAwarePullRequest): Promise<DataSet>;
+  abstract async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet>;
 }

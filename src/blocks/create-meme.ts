@@ -2,15 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import uuid from 'uuid/v4';
 
-import { LocaleAwarePullRequest, PipelineConfig } from '../types';
+import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
-export async function createMeme(pullRequest: LocaleAwarePullRequest, config: PipelineConfig) {
-  pullRequest.locales.map((locale) => {
-    pullRequest[locale].meme.id = uuid();
-    fs.writeFileSync(
-      path.join(config.dbpath, 'l10n', locale, 'memes', `${pullRequest[locale].meme.id}.json`),
-      JSON.stringify(pullRequest[locale].meme, null, 2),
-    );
-  });
-  return pullRequest;
+export class CreateMeme extends PipelineBlock {
+  public name: string;
+  process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
+    currentPR.locales.map((locale) => {
+      currentPR[locale].meme.id = uuid();
+      fs.writeFileSync(
+        path.join(this.config.dbpath, 'l10n', locale, 'memes', `${currentPR[locale].meme.id}.json`),
+        JSON.stringify(currentPR[locale].meme, null, 2),
+      );
+    });
+    return Promise.resolve(dataset);
+  }
 }
