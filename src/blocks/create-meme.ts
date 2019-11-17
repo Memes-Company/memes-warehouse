@@ -5,7 +5,7 @@ import uuid from 'uuid/v4';
 import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class CreateMeme extends PipelineBlock {
-  public name: string;
+  public name: string = CreateMeme.name;
   process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
     currentPR.locales.map((locale) => {
       currentPR[locale].meme.id = uuid();

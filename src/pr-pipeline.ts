@@ -20,7 +20,7 @@ export class PullRequestsPipeline {
   }
 
   async run(): Promise<void> {
-    let dataset = await new LoadDataSet(this.config).process();
+    let dataset = await new LoadDataSet(this.config).process(null, null); // not so beauty as I expected 🤔
     for (const id of Object.keys(dataset.pullRequests)) {
       for (const block of this.blocks) {
         try {
