@@ -1,5 +1,5 @@
 export * from './data-set';
-export * from './locale';
+export * from './locales';
 export * from './locale-aware-pull-reques';
 export * from './meme';
 export * from './pipeline-block';

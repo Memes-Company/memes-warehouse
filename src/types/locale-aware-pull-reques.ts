@@ -1,9 +1,9 @@
-import { Locale } from './locale';
+import { Locales } from './locales';
 import { PullRequest } from './pull-request';
 
 export type LocaleAwarePullRequest = {
-  [key in Locale]?: PullRequest;
+  [key in Locales]?: PullRequest;
 } & {
   id: string;
-  locales: Locale[];
+  locales: Locales[];
 };

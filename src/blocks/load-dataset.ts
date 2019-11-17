@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { DataSet, Locale, LocaleAwarePullRequest, Meme, PipelineBlock, Tag } from '../types';
+import { DataSet, Locales, LocaleAwarePullRequest, Meme, PipelineBlock, Tag } from '../types';
 
 export class LoadDataSet extends PipelineBlock {
   private readonly localeMarker = '${locale}';
@@ -29,10 +29,10 @@ export class LoadDataSet extends PipelineBlock {
       })
       .map((kv) => (dataset.pullRequests[kv.key] = { id: kv.key, ...kv.value }));
 
-    Object.values(Locale).map((locale) => {
+    Object.values(Locales).map((locale) => {
       this.getDirJsons(this.getLocalizedJoinedPath(memesPath, locale, ''))
         .map((filename) => this.getJson<Meme>(this.getLocalizedJoinedPath(memesPath, locale, filename)))
-        .map((meme) => (dataset.memes[locale as Locale][meme.id] = meme));
+        .map((meme) => (dataset.memes[locale as Locales][meme.id] = meme));
 
       this.getDirJsons(this.getLocalizedJoinedPath(tagsPath, locale, ''))
         .map((filename) => {
@@ -40,7 +40,7 @@ export class LoadDataSet extends PipelineBlock {
           tag.id = filename.replace(dotjson, '');
           return tag;
         })
-        .map((tag) => (dataset.tags[locale as Locale][tag.id] = tag));
+        .map((tag) => (dataset.tags[locale as Locales][tag.id] = tag));
     });
     return Promise.resolve(dataset);
   }
@@ -52,7 +52,7 @@ export class LoadDataSet extends PipelineBlock {
     return fs.readdirSync(path, { encoding: 'utf-8' }).filter((e) => e.endsWith('json'));
   }
 
-  private getLocalizedJoinedPath(basePath: string, locale: Locale, filename: string) {
+  private getLocalizedJoinedPath(basePath: string, locale: Locales, filename: string) {
     return path.join(basePath.replace(this.localeMarker, locale), filename);
   }
 }
