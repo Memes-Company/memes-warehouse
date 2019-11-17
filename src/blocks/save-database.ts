@@ -5,8 +5,6 @@ import rimraf from 'rimraf';
 
 export class SaveDatabase extends PipelineBlock {
   public name: string = SaveDatabase.name;
-  private readonly localeMarker = '${locale}';
-
   async process(database: DataBase, currentPullRequest: LocaleAwarePullRequest): Promise<DataBase> {
     const prsPath = path.join(this.config.dbpath, 'pull-requests');
     const dotjson = '.json';
