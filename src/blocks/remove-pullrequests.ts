@@ -1,12 +1,12 @@
 import path from 'path';
 import rimraf from 'rimraf';
 
-import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
+import { DataBase, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class RemovePullrequest extends PipelineBlock {
   public name: string = RemovePullrequest.name;
-  async process(dataset: DataSet, currentPullRequest: LocaleAwarePullRequest): Promise<DataSet> {
+  async process(database: DataBase, currentPullRequest: LocaleAwarePullRequest): Promise<DataBase> {
     rimraf.sync(path.join(this.config.dbpath, 'pull-requests', `${currentPullRequest.id}.json`));
-    return Promise.resolve(dataset);
+    return Promise.resolve(database);
   }
 }

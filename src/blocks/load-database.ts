@@ -1,12 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { DataSet, Locales, LocaleAwarePullRequest, Meme, PipelineBlock, Tag } from '../types';
 
-export class LoadDataSet extends PipelineBlock {
+import { DataBase, LocaleAwarePullRequest, Locales, Meme, PipelineBlock, Tag } from '../types';
+
+export class LoadDataBase extends PipelineBlock {
   private readonly localeMarker = '${locale}';
-  public name: string = LoadDataSet.name;
-  async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
-    dataset = {
+  public name: string = LoadDataBase.name;
+  async process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase> {
+    database = {
       pullRequests: {},
       memes: { en: {}, ru: {} },
       tags: { en: {}, ru: {} },
@@ -27,12 +28,12 @@ export class LoadDataSet extends PipelineBlock {
           value: this.getJson<LocaleAwarePullRequest>(path.join(prsPath, filename)),
         };
       })
-      .map((kv) => (dataset.pullRequests[kv.key] = { id: kv.key, ...kv.value }));
+      .map((kv) => (database.pullRequests[kv.key] = { id: kv.key, ...kv.value }));
 
     Object.values(Locales).map((locale) => {
       this.getDirJsons(this.getLocalizedJoinedPath(memesPath, locale, ''))
         .map((filename) => this.getJson<Meme>(this.getLocalizedJoinedPath(memesPath, locale, filename)))
-        .map((meme) => (dataset.memes[locale as Locales][meme.id] = meme));
+        .map((meme) => (database.memes[locale as Locales][meme.id] = meme));
 
       this.getDirJsons(this.getLocalizedJoinedPath(tagsPath, locale, ''))
         .map((filename) => {
@@ -40,9 +41,9 @@ export class LoadDataSet extends PipelineBlock {
           tag.id = filename.replace(dotjson, '');
           return tag;
         })
-        .map((tag) => (dataset.tags[locale as Locales][tag.id] = tag));
+        .map((tag) => (database.tags[locale as Locales][tag.id] = tag));
     });
-    return Promise.resolve(dataset);
+    return Promise.resolve(database);
   }
 
   private getJson<T>(path: string): T {

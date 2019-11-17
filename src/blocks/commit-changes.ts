@@ -1,10 +1,10 @@
 import sgit from 'simple-git/promise';
 
-import { DataSet, LocaleAwarePullRequest, PipelineBlock } from '../types';
+import { DataBase, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class CommitChanges extends PipelineBlock {
   public name: string = CommitChanges.name;
-  async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
+  async process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase> {
     if (process.env.TRAVIS_BRANCH) {
       const git = sgit();
       await git
@@ -12,6 +12,6 @@ export class CommitChanges extends PipelineBlock {
         .then(() => git.add('.'))
         .then(() => git.commit(`[skip-ci] Add new meme: ${currentPR[currentPR.locales[0]].meme.title}`));
     }
-    return dataset;
+    return database;
   }
 }

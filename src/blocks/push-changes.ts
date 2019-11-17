@@ -1,9 +1,9 @@
 import sgit from 'simple-git/promise';
-import { PipelineBlock, DataSet, LocaleAwarePullRequest } from '../types';
+import { PipelineBlock, DataBase, LocaleAwarePullRequest } from '../types';
 
 export class PushChanges extends PipelineBlock {
   public name: string = PushChanges.name;
-  async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
+  async process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase> {
     if (process.env.TRAVIS_BRANCH) {
       const git = sgit();
       console.log('Pushing changes to remote...');
@@ -12,6 +12,6 @@ export class PushChanges extends PipelineBlock {
         .then(() => git.push('new-origin', process.env.TRAVIS_BRANCH))
         .then(() => git.removeRemote('new-origin'));
     }
-    return dataset;
+    return database;
   }
 }

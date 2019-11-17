@@ -1,4 +1,4 @@
-import { DataSet } from './data-set';
+import { DataBase } from './data-set';
 import { LocaleAwarePullRequest } from './locale-aware-pull-reques';
 import { PipelineConfig } from './pipeline-config';
 
@@ -10,5 +10,5 @@ export abstract class PipelineBlock {
   }
 
   //oh, yep, we need to process every PR separately to create separate commits
-  abstract async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet>;
+  abstract async process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase>;
 }

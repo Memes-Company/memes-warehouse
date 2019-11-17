@@ -3,7 +3,7 @@ import { Meme } from './meme';
 import { Tag } from './tag';
 import { WithLocale } from './with-locale';
 
-export interface DataSet {
+export interface DataBase {
   pullRequests: {
     [key: string]: LocaleAwarePullRequest;
   };
