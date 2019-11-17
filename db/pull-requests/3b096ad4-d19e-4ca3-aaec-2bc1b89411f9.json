@@ -1,0 +1,15 @@
+{
+  "locales": ["ru"],
+  "ru": {
+    "meme": {
+      "title": "Квадрат из смайлов с руками",
+      "description": "Квадрат из смайлов с руками (Cascading Pointing Hand Emoji) — мем с квадратом, составленным из эмоджи в виде указательного пальца. В центре квадрата пишут слово, на котором нужно акцентировать внимание",
+      "source": {
+        "type": "image",
+        "value": "https://memepedia.ru/wp-content/uploads/2019/11/kvadrat-iz-smajlov.png"
+      },
+      "tags": []
+    },
+    "tags": ["Квадрат", "Смайлы", "Руки", "Эмоджи", "Эмодзи", "Emoji"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "locales": ["en"],
+  "en": {
+    "meme": {
+      "title": "Peach Emoji",
+      "description": "Peach Emoji (🍑) is an iPhone emoji that gained notoriety for its visual similarity to a buttox, leading it to be popularly used in sexting and other instances of sexual innuendo",
+      "source": {
+        "type": "image",
+        "value": "https://i.kym-cdn.com/photos/images/newsfeed/001/187/104/180.png"
+      },
+      "tags": []
+    },
+    "tags": ["Peach", "Butt", "Ass", "Emoji"]
+  }
+}

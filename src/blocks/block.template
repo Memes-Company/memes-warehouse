@@ -1,4 +1,8 @@
-import { PullRequest, PipelineConfig } from '../types';
-export async function %blockName%(pullRequest: PullRequest, config: PipelineConfig) {
-  return pullRequest;
+import { DataBase, LocaleAwarePullRequest, PipelineBlock } from '../types';
+
+export class %blockName% extends PipelineBlock {
+  public name: string = %blockName%.name;
+  async process(DataBase: DataBase, currentPullRequest: LocaleAwarePullRequest): Promise<DataBase> {
+    return Promise.resolve(DataBase);
+  }
 }

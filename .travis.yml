@@ -1,9 +1,10 @@
 language: node_js
 node_js:
-  - "10.17.0"
+  - "13.1.0"
 branches:
   only:
     - master
+    # - /^feature.*$/
 script:
   - yarn build
   - yarn merge-pr

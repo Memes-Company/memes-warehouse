@@ -1,7 +1,13 @@
-import { PullRequest, PipelineConfig } from '../types';
+import path from 'path';
 import rimraf from 'rimraf';
 
-export async function removePullrequests(pullRequest: PullRequest, config: PipelineConfig) {
-  rimraf.sync(config.pullrequestsDir);
-  return pullRequest;
+import { DataBase, LocaleAwarePullRequest, PipelineBlock } from '../types';
+
+export class RemovePullrequest extends PipelineBlock {
+  public name: string = RemovePullrequest.name;
+  async process(database: DataBase, currentPullRequest: LocaleAwarePullRequest): Promise<DataBase> {
+    rimraf.sync(path.join(this.config.dbpath, 'pull-requests', `${currentPullRequest.id}.json`));
+    delete database.pullRequests[currentPullRequest.id];
+    return Promise.resolve(database);
+  }
 }
