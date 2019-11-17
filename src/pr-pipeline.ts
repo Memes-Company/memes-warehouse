@@ -1,4 +1,12 @@
-import { PushChanges, LoadDataSet } from './blocks';
+import {
+  PushChanges,
+  LoadDataSet,
+  CreateTags,
+  CreateMeme,
+  AddMemeToTags,
+  RemovePullrequest,
+  CommitChanges,
+} from './blocks';
 import { PipelineBlock, PipelineConfig } from './types';
 
 export class PullRequestsPipeline {
@@ -6,8 +14,9 @@ export class PullRequestsPipeline {
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    // this.blocks = [createTags, createMeme, addMemeToTags, removePullrequests, commitChanges];
-    this.blocks = [new LoadDataSet(this.config)];
+    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, RemovePullrequest, CommitChanges].map(
+      (e) => new e(this.config),
+    );
   }
 
   async run(): Promise<void> {

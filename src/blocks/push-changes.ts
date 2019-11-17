@@ -2,7 +2,7 @@ import sgit from 'simple-git/promise';
 import { PipelineBlock, DataSet, LocaleAwarePullRequest } from '../types';
 
 export class PushChanges extends PipelineBlock {
-  public name: string;
+  public name: string = PushChanges.name;
   async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
     if (process.env.TRAVIS_BRANCH) {
       const git = sgit();

@@ -1,7 +1,7 @@
 import { DataSet, Locale, LocaleAwarePullRequest, PipelineBlock } from '../types';
 
 export class AddMemeToTags extends PipelineBlock {
-  public name: string;
+  public name: string = AddMemeToTags.name;
   async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
     currentPR.locales.map((locale) => {
       currentPR[locale].meme.tags.forEach((tagId) => {

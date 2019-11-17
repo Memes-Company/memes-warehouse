@@ -5,7 +5,7 @@ import uuid from 'uuid/v4';
 import { DataSet, LocaleAwarePullRequest, PipelineConfig, PipelineBlock } from '../types';
 
 export class CreateTags extends PipelineBlock {
-  public name: string;
+  public name: string = CreateTags.name;
   async process(dataset: DataSet, currentPR: LocaleAwarePullRequest): Promise<DataSet> {
     currentPR.locales.map((locale) => {
       if (currentPR[locale].tags) {
