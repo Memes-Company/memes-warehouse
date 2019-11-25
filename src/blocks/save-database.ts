@@ -1,14 +1,14 @@
-import { DataBase, LocaleAwarePullRequest, PipelineBlock, Locales } from '../types';
-import path from 'path';
 import crypto from 'crypto';
 import fs from 'fs';
+import path from 'path';
 import rimraf from 'rimraf';
+
+import { DataBase, Locales, PipelineBlock } from '../types';
 
 export class SaveDatabase extends PipelineBlock {
   public name: string = SaveDatabase.name;
-  async process(database: DataBase, currentPullRequest: LocaleAwarePullRequest): Promise<DataBase> {
+  async process(database: DataBase): Promise<DataBase> {
     const prsPath = path.join(this.config.dbpath, 'pull-requests');
-    const dotjson = '.json';
     rimraf.sync(this.config.dbpath);
     fs.mkdirSync(prsPath, { recursive: true });
 

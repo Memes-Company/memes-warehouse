@@ -6,7 +6,7 @@ import { DataBase, LocaleAwarePullRequest, Locales, Meme, PipelineBlock, Tag } f
 export class LoadDataBase extends PipelineBlock {
   private readonly localeMarker = '${locale}';
   public name: string = LoadDataBase.name;
-  async process(database: DataBase, currentPR: LocaleAwarePullRequest): Promise<DataBase> {
+  async process(database: DataBase): Promise<DataBase> {
     database = {
       pullRequests: {},
       memes: { en: {}, ru: {} },
@@ -53,7 +53,7 @@ export class LoadDataBase extends PipelineBlock {
     return fs.readdirSync(path, { encoding: 'utf-8' }).filter((e) => e.endsWith('json'));
   }
 
-  private getLocalizedJoinedPath(basePath: string, locale: Locales, filename: string) {
+  private getLocalizedJoinedPath(basePath: string, locale: Locales, filename: string): string {
     return path.join(basePath.replace(this.localeMarker, locale), filename);
   }
 }
