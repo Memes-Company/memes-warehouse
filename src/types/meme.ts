@@ -3,4 +3,8 @@ export interface Meme {
   title: string;
   description: string;
   tags?: (string)[] | null;
+  source: {
+    type: 'image' | 'link';
+    value: string;
+  };
 }

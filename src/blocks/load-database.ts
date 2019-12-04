@@ -14,6 +14,9 @@ export class LoadDataBase extends PipelineBlock {
     };
 
     const prsPath = path.join(this.config.dbpath, 'pull-requests');
+    if (!fs.existsSync(prsPath)) {
+      fs.mkdirSync(prsPath);
+    }
     const memesPath = path.join(this.config.dbpath, 'l10n', this.localeMarker, 'memes');
     const tagsPath = path.join(this.config.dbpath, 'l10n', this.localeMarker, 'tags');
     const dotjson = '.json';

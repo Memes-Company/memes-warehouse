@@ -21,7 +21,7 @@ export class PullRequestsPipeline {
   }
 
   async run(): Promise<void> {
-    let database = await new LoadDataBase(this.config).process(null, null); // not so beauty as I expected 🤔
+    let database = await new LoadDataBase(this.config).process(null); // not so beauty as I expected 🤔
     for (const id of Object.keys(database.pullRequests)) {
       const pipeline = database.pullRequests[id];
       for (const block of this.blocks) {
@@ -37,7 +37,9 @@ export class PullRequestsPipeline {
         }
       }
     }
-    await new PushChanges(this.config).process(database, null);
+    await new PushChanges(this.config).process(database);
+    await new SaveDatabase(this.config).process(database);
+    // await new CommitChanges(this.config).process(database);
     console.log('Done!');
   }
 }

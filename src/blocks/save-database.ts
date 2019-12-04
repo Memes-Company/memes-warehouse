@@ -1,7 +1,9 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import request from 'request';
 import rimraf from 'rimraf';
+import sharp from 'sharp';
 
 import { DataBase, Locales, PipelineBlock } from '../types';
 
@@ -22,9 +24,25 @@ export class SaveDatabase extends PipelineBlock {
       fs.mkdirSync(memesPath, { recursive: true });
       fs.mkdirSync(tagsPath, { recursive: true });
 
-      Object.values(database.memes[locale]).forEach((meme) =>
-        fs.writeFileSync(path.join(memesPath, `${meme.id}.json`), JSON.stringify(meme, null, 2)),
-      );
+      Object.values(database.memes[locale]).forEach(async (meme) => {
+        if (meme.source.type === 'image') {
+          fs.mkdirSync(path.join(this.config.dbpath, meme.id));
+          await request.get({ url: meme.source.value, encoding: null }, (error, respose, body) => {
+            //todo: get orig. size and then write previews untill we reach 32x32
+            const sizes = [32, 64, 128, 256, 512, 1024];
+            for (let size of sizes) {
+              console.log(`Processing: ${size}...`);
+              sharp(body)
+                .resize(size, size, {
+                  fit: 'contain',
+                })
+                //todo: not 'png' - peek format from metadata
+                .toFile(path.join(this.config.dbpath, meme.id, `${size}.png`));
+            }
+          });
+        }
+        fs.writeFileSync(path.join(memesPath, `${meme.id}.json`), JSON.stringify(meme, null, 2));
+      });
       const tagsCache = {};
       Object.values(database.tags[locale]).forEach((tag) => {
         tagsCache[tag.id] = tag.title;
