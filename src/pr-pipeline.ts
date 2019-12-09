@@ -1,14 +1,15 @@
 import {
-  PushChanges,
-  LoadDataBase,
-  CreateTags,
-  CreateMeme,
   AddMemeToTags,
-  RemovePullrequest,
   CommitChanges,
+  CreateMeme,
+  CreateTags,
+  LoadDataBase,
+  PushChanges,
+  RemovePullrequest,
 } from './blocks';
-import { PipelineBlock, PipelineConfig } from './types';
 import { SaveDatabase } from './blocks/save-database';
+import { gitAdd, gitCheckout, gitCommit } from './functions';
+import { PipelineBlock, PipelineConfig } from './types';
 
 export class PullRequestsPipeline {
   private blocks: Array<PipelineBlock>;
@@ -37,9 +38,13 @@ export class PullRequestsPipeline {
         }
       }
     }
-    await new PushChanges(this.config).process(database);
-    await new SaveDatabase(this.config).process(database);
-    // await new CommitChanges(this.config).process(database);
+    if (process.env.TRAVIS_BRANCH) {
+      await gitCheckout(process.env.TRAVIS_BRANCH);
+      await gitAdd('.');
+      await gitCommit('Overall commit');
+      await new SaveDatabase(this.config).process(database);
+      await new PushChanges(this.config).process(database);
+    }
     console.log('Done!');
   }
 }
