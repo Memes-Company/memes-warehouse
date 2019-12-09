@@ -1,6 +1,14 @@
 import { resolve } from 'dns';
 
-import { AddMemeToTags, CommitChanges, CreateMeme, CreateTags, LoadDataBase, PushChanges } from './blocks';
+import {
+  AddMemeToTags,
+  CommitChanges,
+  CreateMeme,
+  CreateTags,
+  LoadDataBase,
+  PushChanges,
+  RemovePullrequest,
+} from './blocks';
 import { SaveDatabase } from './blocks/save-database';
 import { gitAdd, gitCheckout, gitCommit } from './functions';
 import { PipelineBlock, PipelineConfig } from './types';
@@ -10,7 +18,9 @@ export class PullRequestsPipeline {
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, SaveDatabase, CommitChanges].map((e) => new e(this.config));
+    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, RemovePullrequest, SaveDatabase, CommitChanges].map(
+      (e) => new e(this.config),
+    );
   }
 
   async run(): Promise<void> {
@@ -46,7 +56,7 @@ export class PullRequestsPipeline {
       if (process.env.TRAVIS_BRANCH) {
         await gitCheckout(process.env.TRAVIS_BRANCH);
         await gitAdd('.');
-        await gitCommit('Overall commit');
+        await gitCommit('[skip-ci] Overall commit');
         await new SaveDatabase(this.config).process(database);
         await new PushChanges(this.config).process(database);
         resolve();
