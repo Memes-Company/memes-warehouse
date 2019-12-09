@@ -23,9 +23,9 @@ export class PullRequestsPipeline {
 
   async run(): Promise<void> {
     let database = await new LoadDataBase(this.config).process(null); // not so beauty as I expected 🤔
-    for (const id of Object.keys(database.pullRequests)) {
+    for await (const id of Object.keys(database.pullRequests)) {
       const pipeline = database.pullRequests[id];
-      for (const block of this.blocks) {
+      for await (const block of this.blocks) {
         try {
           console.log(`Apply ${block.name}...`);
           database = await block.process(database, pipeline);
@@ -38,6 +38,7 @@ export class PullRequestsPipeline {
         }
       }
     }
+
     if (process.env.TRAVIS_BRANCH) {
       await gitCheckout(process.env.TRAVIS_BRANCH);
       await gitAdd('.');
