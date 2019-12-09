@@ -1,16 +1,9 @@
-import {
-  AddMemeToTags,
-  CommitChanges,
-  CreateMeme,
-  CreateTags,
-  LoadDataBase,
-  PushChanges,
-  RemovePullrequest,
-} from './blocks';
+import { resolve } from 'dns';
+
+import { AddMemeToTags, CommitChanges, CreateMeme, CreateTags, LoadDataBase, PushChanges } from './blocks';
 import { SaveDatabase } from './blocks/save-database';
 import { gitAdd, gitCheckout, gitCommit } from './functions';
 import { PipelineBlock, PipelineConfig } from './types';
-import { resolve } from 'dns';
 
 export class PullRequestsPipeline {
   private blocks: Array<PipelineBlock>;

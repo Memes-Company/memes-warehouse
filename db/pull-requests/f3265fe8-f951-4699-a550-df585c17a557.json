@@ -1,0 +1,13 @@
+{
+  "id": "f3265fe8-f951-4699-a550-df585c17a557",
+  "locales": ["en"],
+  "en": {
+    "meme": {
+      "title": "Dummy",
+      "description": "Dummy",
+      "source": {
+        "type": "link"
+      }
+    }
+  }
+}
