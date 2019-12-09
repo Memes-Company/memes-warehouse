@@ -17,9 +17,7 @@ export class PullRequestsPipeline {
   private config: PipelineConfig;
   constructor(config: PipelineConfig) {
     this.config = config;
-    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, RemovePullrequest, SaveDatabase, CommitChanges].map(
-      (e) => new e(this.config),
-    );
+    this.blocks = [CreateTags, CreateMeme, AddMemeToTags, SaveDatabase, CommitChanges].map((e) => new e(this.config));
   }
 
   async run(): Promise<void> {
@@ -27,6 +25,7 @@ export class PullRequestsPipeline {
     await new Promise(async (resolve) => {
       for (const id of Object.keys(database.pullRequests)) {
         const pullRequest = database.pullRequests[id];
+        console.log(`Working on PR: ${pullRequest.id}`);
         await new Promise(async (resolve) => {
           for (const block of this.blocks) {
             try {
@@ -50,13 +49,17 @@ export class PullRequestsPipeline {
       }
     });
 
-    if (process.env.TRAVIS_BRANCH) {
-      await gitCheckout(process.env.TRAVIS_BRANCH);
-      await gitAdd('.');
-      await gitCommit('Overall commit');
-      await new SaveDatabase(this.config).process(database);
-      await new PushChanges(this.config).process(database);
-    }
-    console.log('Done!');
+    new Promise(async (resolve) => {
+      if (process.env.TRAVIS_BRANCH) {
+        await gitCheckout(process.env.TRAVIS_BRANCH);
+        await gitAdd('.');
+        await gitCommit('Overall commit');
+        await new SaveDatabase(this.config).process(database);
+        await new PushChanges(this.config).process(database);
+        resolve();
+      }
+    }).then(() => {
+      console.log('Done!');
+    });
   }
 }
